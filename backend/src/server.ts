@@ -1,5 +1,7 @@
 import express, { Response, Request } from 'express'
 import cors, { CorsOptions } from 'cors'
+import { productRoutes } from './handlers/productsHandler'
+import { customerRoutes } from './handlers/customersHandler'
 
 const whitelist = ['http://localhost:3000/'] // add your safe domain
 var corsOptions: CorsOptions = {
@@ -23,6 +25,9 @@ app.get('/', cors(corsOptions), (_req: Request, res: Response) => {
     res.send('Welcome!')
 })
 
+// import routes from handlers
+productRoutes(app)
+customerRoutes(app)
 
 app.listen(port, () => {
     console.log(`Server listening on port: ${port}`)

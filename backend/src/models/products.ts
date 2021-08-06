@@ -18,7 +18,8 @@ export default class Product {
 
             return res.rows[0]
         } catch (err) {
-            throw new Error(`Error from model createOneProduct: ${err}`)
+            console.log(`Error from model createOneProduct: ${err}`)
+            throw new Error
         }
     }
 
@@ -31,7 +32,8 @@ export default class Product {
 
             return res.rows[0]
         } catch (err) {
-            throw new Error(`Error from model readOneProduct: ${err}`)
+            console.log(`Error from model readOneProduct: ${err}`)
+            throw new Error
         }
     }
 
@@ -44,7 +46,8 @@ export default class Product {
 
             return res.rows
         } catch (err) {
-            throw new Error(`Error from model readAllProducts: ${err}`)
+            console.log(`Error from model readAllProducts: ${err}`)
+            throw new Error
         }
     }
 
@@ -56,15 +59,15 @@ export default class Product {
             let res3: QueryResult | null = null
 
             // check which columns to update
-            if (name !== null) {
+            if (name != null) {
                 const sql = `UPDATE store.products SET name = $2 WHERE id = $1 RETURNING *;`
                 res1 = await client.query(sql, [id, name])
             }
-            if (price !== null) {
+            if (price != null) {
                 const sql = `UPDATE store.products SET price = $2 WHERE id = $1 RETURNING *;`
                 res2 = await client.query(sql, [id, price])
             }
-            if (category !== null) {
+            if (category != null) {
                 const sql = `UPDATE store.products SET category = $2 WHERE id = $1 RETURNING *;`
                 res3 = await client.query(sql, [id, category])
             }
@@ -80,7 +83,8 @@ export default class Product {
             }
             throw new Error(`At least one column must be set to update...`)
         } catch (err) {
-            throw new Error(`Error from model updateOneProduct: ${err}`)
+            console.log(`Error from model updateOneProduct: ${err}`)
+            throw new Error
         }
     }
 
@@ -93,7 +97,8 @@ export default class Product {
 
             return res.rows[0]
         } catch (err) {
-            throw new Error(`Error from model deleteOneProduct: ${err}`)
+            console.log(`Error from model deleteOneProduct: ${err}`)
+            throw new Error
         }
     }
 }
