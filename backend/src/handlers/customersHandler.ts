@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express'
 import Customer, { CustomerType } from '../models/customers'
+import { authOperation } from '../services/auth'
 
 const customers = new Customer()
 
@@ -56,8 +57,8 @@ const deleteOne = async (req: Request, res: Response) => {
 }
 
 export const customerRoutes = (app: express.Application) => {
-    app.post('/customers/create', createOne)
+    app.post('/customers/create', authOperation, createOne)
     app.get('/customers/:id', readOne)
     app.get('/customers', readAll)
-    app.delete('/customers/delete', deleteOne)
+    app.delete('/customers/delete', authOperation, deleteOne)
 }

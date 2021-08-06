@@ -3,16 +3,16 @@ RESTful api for course to provide secured endpoints to show product information.
 
 ## Development setup (.env & database.json)
 * create .env file at backend root and add:
-POSTGRES_USER=<your postgres username>
-POSTGRES_PASSWORD=<your postgres password>
+POSTGRES_USER='your postgres username'
+POSTGRES_PASSWORD='your postgres password'
 POSTGRES_HOST=127.0.0.1
-POSTGRES_DB=<your main dev-database>
-POSTGRES_DB_TEST=<your test database>
+POSTGRES_DB='your main dev-database'
+POSTGRES_DB_TEST='your test database'
 PORT=5432
 ENV=dev
-BCRYPT_PASSWORD=<pepper for crypting>
-SALT_ROUNDS=<rounds to hash>
-TOKEN_SECRET=<token pepper>
+BCRYPT_PASSWORD='pepper for crypting'
+SALT_ROUNDS='rounds to hash'
+TOKEN_SECRET='token pepper'
 * create database.json file backend root and add:
 {
     "dev": {
@@ -38,36 +38,36 @@ TOKEN_SECRET=<token pepper>
 
 ## Schema
 * Product (products):
-** id (PK)
-** name
-** price
-** category
+    * id (PK)
+    * name
+    * price
+    * category
 
 * Customer (customers):
-** id (PK)
-** name
-** street_address
-** postal_code
-** city
+    * id (PK)
+    * name
+    * street_address
+    * postal_code
+    * city
 
 * Order_header (order_headers):
-** id (PK)
-** customer_id (FK -> customers)
-** user_id (FK -> users)
-** active
+    * id (PK)
+    * customer_id (FK -> customers)
+    * user_id (FK -> users)
+    * active
 
 * Order_row (order_rows):
-** id (PK)
-** product_id (FK -> products)
-** order_id (FK -> order_headers)
-** quantity
+    * id (PK)
+    * product_id (FK -> products)
+    * order_id (FK -> order_headers)
+    * quantity
 
 * User (users):
-** id (PK)
-** first_name
-** last_name
-** username
-** password
+    * id (PK)
+    * first_name
+    * last_name
+    * username
+    * password
 
 ## Views
 * Details - full order information with products 

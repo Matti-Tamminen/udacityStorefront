@@ -1,19 +1,16 @@
 import express, { Request, Response } from 'express'
 import Product, { ProductType } from '../models/products'
+import { authOperation } from '../services/auth'
 
 const products = new Product()
 
 const createOne = async (req: Request, res: Response) => {
     const name = req.body.name
     let price = req.body.price
-    let category = req.body.category
+    const category = req.body.category
 
     try {
-        if (category === typeof (undefined)) {
-            category = null
-        }
         price = parseInt(price)
-
         const result = await products.createOneProduct(name as ProductType['name'], price as ProductType['price'], category as ProductType['category'])
 
         res.status(201).json(result)
@@ -76,9 +73,9 @@ const deleteOne = async (req: Request, res: Response) => {
 }
 
 export const productRoutes = (app: express.Application) => {
-    app.post('/products/create', createOne)
+    app.post('/products/create', authOperation, createOne)
     app.get('/products/:id', readOne)
     app.get('/products', readAll)
-    app.put('/products/update/:id', updateOne)
-    app.delete('/products/delete', deleteOne)
+    app.put('/products/update/:id', authOperation, updateOne)
+    app.delete('/products/delete', authOperation, deleteOne)
 }
