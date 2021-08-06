@@ -1,0 +1,1 @@
+CREATE TABLE store.order_headers (id SERIAL PRIMARY KEY, active BOOLEAN NOT NULL);

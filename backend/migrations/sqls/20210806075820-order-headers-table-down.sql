@@ -1,0 +1,1 @@
+DROP TABLE store.order_headers;

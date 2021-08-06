@@ -1,0 +1,1 @@
+CREATE TABLE store.customers (id SERIAL PRIMARY KEY, name VARCHAR(100), street_address VARCHAR, postal_code INTEGER, city VARCHAR(50));
