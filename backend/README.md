@@ -32,7 +32,7 @@ TOKEN_SECRET='token pepper'
 }
 
 ## Scripts
-* "dev-server" -> starts tsc-watch
+* "watch" -> starts tsc-watch
 * "build" -> builds typescript
 
 

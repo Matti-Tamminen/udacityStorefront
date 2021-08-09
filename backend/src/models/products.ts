@@ -101,4 +101,32 @@ export default class Product {
             throw new Error
         }
     }
+
+    async top5products(): Promise<object[]> {
+        try {
+            const connection = await client.connect()
+            const sql = `SELECT store.products.id, store.products.name, store.products.price, COUNT(store.order_rows.product_id) FROM store.order_rows INNER JOIN store.products ON store.order_rows.product_id = store.products.id GROUP BY store.products.id, store.products.name, store.products.price ORDER BY COUNT(product_id) DESC LIMIT(5);`
+            const res = await client.query(sql)
+            connection.release()
+
+            return res.rows
+        } catch (err) {
+            console.log(`Error from model top5products: ${err}`)
+            throw new Error
+        }
+    }
+
+    async categories(category: ProductType['category']): Promise<ProductType[]> {
+        try {
+            const connection = await client.connect()
+            const sql = `SELECT * FROM store.products WHERE category = $1;`
+            const res = await client.query(sql, [category])
+            connection.release()
+
+            return res.rows
+        } catch (err) {
+            console.log(`Error from model categories: ${err}`)
+            throw new Error
+        }
+    }
 }

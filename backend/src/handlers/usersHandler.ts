@@ -50,9 +50,20 @@ const readAll = async (req: Request, res: Response) => {
     }
 }
 
+const userIndex = async (req: Request, res: Response) => {
+    try {
+        const result = await users.safeUsers()
+
+        res.json(result)
+    } catch (err) {
+        res.status(404).json('CANNOT FIND USERINDEX')
+    }
+}
+
 export const userRoutes = (app: express.Application) => {
     app.post('/login', login)
     app.post('/users/create', authOperation, createOne)
     app.get('/users/:id', authOperation, readOne)
     app.get('/users', authOperation, readAll)
+    app.get('/users/index', userIndex)
 }

@@ -61,7 +61,7 @@ const updateOne = async (req: Request, res: Response) => {
 }
 
 const deleteOne = async (req: Request, res: Response) => {
-    const id = req.body.id
+    const { id } = req.params
 
     try {
         const result = await products.deleteOneProduct(id as ProductType['id'])
@@ -72,10 +72,33 @@ const deleteOne = async (req: Request, res: Response) => {
     }
 }
 
+const popularProducts = async (_req: Request, res: Response) => {
+    try {
+        const result = await products.top5products()
+
+        res.json(result)
+    } catch (err) {
+        res.status(400).json('CANNOT FIND TOP PRODUCTS')
+    }
+}
+
+const categories = async (req: Request, res: Response) => {
+    const { category } = req.params
+    try {
+        const result = await products.categories(category)
+
+        res.json(result)
+    } catch (err) {
+        res.status(400).json('CANNOT LIST CATEGORY')
+    }
+}
+
 export const productRoutes = (app: express.Application) => {
     app.post('/products/create', authOperation, createOne)
     app.get('/products/:id', readOne)
     app.get('/products', readAll)
     app.put('/products/update/:id', authOperation, updateOne)
-    app.delete('/products/delete', authOperation, deleteOne)
+    app.delete('/products/delete/:id', authOperation, deleteOne)
+    app.get('/products/top5', popularProducts)
+    app.get('/products/category/:category', categories)
 }

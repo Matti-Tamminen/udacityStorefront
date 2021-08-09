@@ -87,6 +87,20 @@ export default class User {
         }
     }
 
+    async safeUsers(): Promise<UserType[]> {
+        try {
+            const connection = await client.connect()
+            const sql = `SELECT first_name, last_name FROM store.users;`
+            const res = await client.query(sql)
+            connection.release()
+
+            return res.rows
+        } catch (err) {
+            console.log(`Error from model safeUsers: ${err}`)
+            throw new Error
+        }
+    }
+
     //async updateOneUser(): 
     //async deleteOneUser():
 }
