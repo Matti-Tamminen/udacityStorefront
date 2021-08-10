@@ -4,10 +4,11 @@
   "description": "course api",
   "main": "build/server",
   "scripts": {
-    "test": "npx jasmine-ts",
+    "test": "set ENV=test && db-migrate --env test up && npm run build && npm run jasmine && db-migrate db:drop test",
+    "jasmine": "jasmine",
     "build": "npx tsc",
     "watch": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./build/src/server.js\"",
-    "start": "node build/src/server"
+    "start": "npx tsc && node build/src/server"
   },
   "repository": {
     "type": "git",

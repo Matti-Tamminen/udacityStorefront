@@ -15,7 +15,7 @@ const {
 
 let client: Pool
 
-if (ENV == 'test') { // testing
+if (ENV?.toString().trim() == 'test') { // testing
     client = new Pool({
         host: POSTGRES_HOST,
         database: POSTGRES_DB_TEST,
@@ -23,7 +23,8 @@ if (ENV == 'test') { // testing
         password: POSTGRES_PASSWORD,
         port: PORT as number | undefined
     })
-} else if (ENV == 'dev') { // development
+    console.log(`Test DB-connection started`)
+} else if (ENV?.toString().trim() == 'dev') { // development
     client = new Pool({
         host: POSTGRES_HOST,
         database: POSTGRES_DB,
@@ -31,6 +32,7 @@ if (ENV == 'test') { // testing
         password: POSTGRES_PASSWORD,
         port: PORT as number | undefined
     })
+    console.log(`Development DB-connection started`)
 } else { // production
     client = new Pool({
         host: POSTGRES_HOST,
@@ -39,6 +41,7 @@ if (ENV == 'test') { // testing
         password: POSTGRES_PASSWORD,
         port: PORT as number | undefined
     })
+    console.log(`Production DB-connection started`)
 }
 
 export default client

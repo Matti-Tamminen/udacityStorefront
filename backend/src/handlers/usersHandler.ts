@@ -12,7 +12,8 @@ const createOne = async (req: Request, res: Response) => {
 
         res.status(201).json(result)
     } catch (err) {
-        res.status(400).json('CANNOT CREATE USER')
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
@@ -24,7 +25,8 @@ const login = async (req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(401).json('LOGIN FAILED')
+        const error = `${err}`
+        res.status(401).json(error)
     }
 }
 
@@ -36,7 +38,8 @@ const readOne = async (req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(404).json('CANNOT FIND USER')
+        const error = `${err}`
+        res.status(404).json(error)
     }
 }
 
@@ -46,7 +49,8 @@ const readAll = async (req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(404).json('CANNOT FIND USERS')
+        const error = `${err}`
+        res.status(404).json(error)
     }
 }
 
@@ -56,14 +60,29 @@ const userIndex = async (req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(404).json('CANNOT FIND USERINDEX')
+        const error = `${err}`
+        res.status(404).json(error)
+    }
+}
+
+const deleteUser = async (req: Request, res: Response) => {
+    const { id } = req.params
+
+    try {
+        const result = await users.deleteOneUser(id as UserType['id'])
+
+        res.json(result)
+    } catch (err) {
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
 export const userRoutes = (app: express.Application) => {
     app.post('/login', login)
-    app.post('/users/create', authOperation, createOne)
+    app.post('/users/create', authOperation, createOne) // remove middleware to create initial users
     app.get('/users/:id', authOperation, readOne)
     app.get('/users', authOperation, readAll)
     app.get('/users/index', userIndex)
+    app.delete('/users/delete/:id', authOperation, deleteUser)
 }

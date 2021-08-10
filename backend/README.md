@@ -3,16 +3,16 @@ RESTful api for course to provide secured endpoints to show product information.
 
 ## Development setup (.env & database.json)
 * create .env file at backend root and add:
-POSTGRES_USER='your postgres username'
-POSTGRES_PASSWORD='your postgres password'
-POSTGRES_HOST=127.0.0.1
-POSTGRES_DB='your main dev-database'
-POSTGRES_DB_TEST='your test database'
-PORT=5432
-ENV=dev
-BCRYPT_PASSWORD='pepper for crypting'
-SALT_ROUNDS='rounds to hash'
-TOKEN_SECRET='token pepper'
+    * POSTGRES_USER='your postgres username'
+    * POSTGRES_PASSWORD='your postgres password'
+    * POSTGRES_HOST=127.0.0.1
+    * POSTGRES_DB='your main dev-database'
+    * POSTGRES_DB_TEST='your test database'
+    * PORT=5432
+    * ENV=dev
+    * BCRYPT_PASSWORD='pepper for crypting'
+    * SALT_ROUNDS='rounds to hash'
+    * TOKEN_SECRET='token pepper'
 * create database.json file backend root and add:
 {
     "dev": {
@@ -34,6 +34,7 @@ TOKEN_SECRET='token pepper'
 ## Scripts
 * "watch" -> starts tsc-watch
 * "build" -> builds typescript
+* "start" -> starts build version
 
 
 ## Schema

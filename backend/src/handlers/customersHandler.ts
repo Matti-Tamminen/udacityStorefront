@@ -18,7 +18,8 @@ const createOne = async (req: Request, res: Response) => {
 
         res.status(201).json(result)
     } catch (err) {
-        res.status(400).json('CANNOT CREATE CUSTOMER')
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
@@ -30,7 +31,8 @@ const readOne = async (req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(404).json('CANNOT FIND CUSTOMER')
+        const error = `${err}`
+        res.status(404).json(error)
     }
 }
 
@@ -40,7 +42,8 @@ const readAll = async (req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(404).json('CANNOT FIND CUSTOMERS')
+        const error = `${err}`
+        res.status(404).json(error)
     }
 }
 
@@ -52,13 +55,14 @@ const deleteOne = async (req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(400).json('CANNOT DELETE CUSTOMER')
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
 export const customerRoutes = (app: express.Application) => {
     app.post('/customers/create', authOperation, createOne)
-    app.get('/customers/:id', readOne)
-    app.get('/customers', readAll)
+    app.get('/customers/:id', authOperation, readOne)
+    app.get('/customers', authOperation, readAll)
     app.delete('/customers/delete', authOperation, deleteOne)
 }

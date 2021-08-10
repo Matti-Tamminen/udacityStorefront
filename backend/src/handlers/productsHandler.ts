@@ -15,7 +15,8 @@ const createOne = async (req: Request, res: Response) => {
 
         res.status(201).json(result)
     } catch (err) {
-        res.status(400).json('CANNOT CREATE PRODUCT')
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
@@ -27,7 +28,8 @@ const readOne = async (req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(404).json('CANNOT FIND PRODUCT')
+        const error = `${err}`
+        res.status(404).json(error)
     }
 }
 
@@ -37,7 +39,8 @@ const readAll = async (req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(404).json('CANNOT FIND PRODUCTS')
+        const error = `${err}`
+        res.status(404).json(error)
     }
 }
 
@@ -56,7 +59,8 @@ const updateOne = async (req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(400).json('CANNOT UPDATE PRODUCT')
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
@@ -68,7 +72,8 @@ const deleteOne = async (req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(400).json('CANNOT DELETE PRODUCT')
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
@@ -78,7 +83,8 @@ const popularProducts = async (_req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(400).json('CANNOT FIND TOP PRODUCTS')
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
@@ -89,7 +95,8 @@ const categories = async (req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(400).json('CANNOT LIST CATEGORY')
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 

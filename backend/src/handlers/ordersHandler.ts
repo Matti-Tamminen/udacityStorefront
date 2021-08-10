@@ -8,11 +8,12 @@ const createHeader = async (req: Request, res: Response) => {
     const { customer_id, user_id } = req.body
 
     try {
-        const result = await orders.createHeader(customer_id, user_id)
+        const result = await orders.createHeader(customer_id as OheaderType['customer_id'], user_id as OheaderType['user_id'])
 
         res.status(201).json(result)
     } catch (err) {
-        res.status(400).json('CANNOT CREATE HEADER')
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
@@ -24,17 +25,18 @@ const addRow = async (req: Request, res: Response) => {
     try {
         quantity = parseInt(quantity)
         // check that header is made and its active before inserting rows
-        const check = await orders.readHeader(order_id)
+        const check = await orders.readHeader(order_id as OheaderType['id'])
 
         if (check.active) {
-            const result = await orders.addRow(product_id, order_id, quantity)
+            const result = await orders.addRow(product_id as OrowType['product_id'], order_id as OrowType['order_id'], quantity as OrowType['quantity'])
 
             res.status(201).json(result)
             return
         }
         res.status(400).json('Create an active order header before adding rows...')
     } catch (err) {
-        res.status(400).json('CANNOT ADD ROW')
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
@@ -42,11 +44,12 @@ const readHeader = async (req: Request, res: Response) => {
     const { id } = req.params
 
     try {
-        const result = await orders.readHeader(id)
+        const result = await orders.readHeader(id as OheaderType['id'])
 
         res.json(result)
     } catch (err) {
-        res.status(404).json('CANNOT FIND HEADER')
+        const error = `${err}`
+        res.status(404).json(error)
     }
 }
 
@@ -54,11 +57,12 @@ const readRow = async (req: Request, res: Response) => {
     const { id } = req.params
 
     try {
-        const result = await orders.readRow(id)
+        const result = await orders.readRow(id as OrowType['id'])
 
         res.json(result)
     } catch (err) {
-        res.status(404).json('CANNOT FIND ROW')
+        const error = `${err}`
+        res.status(404).json(error)
     }
 }
 
@@ -68,7 +72,8 @@ const readAllHeaders = async (req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(404).json('CANNOT FIND HEADERS')
+        const error = `${err}`
+        res.status(404).json(error)
     }
 }
 
@@ -78,7 +83,8 @@ const readAllRows = async (req: Request, res: Response) => {
 
         res.json(result)
     } catch (err) {
-        res.status(404).json('CANNOT FIND ROWS')
+        const error = `${err}`
+        res.status(404).json(error)
     }
 }
 
@@ -88,21 +94,12 @@ const userOrders = async (req: Request, res: Response) => {
     const prices = req.body.prices
 
     try {
-        const order = await orders.userOrders(user_id, actives)
-        let full_order: object[] = []
-        for (let i = 0; i < order.length; i++) {
-            const rows = await orders.rowCounts(order[i].user_id)
-            if (prices) {
-                const total_price = await orders.totalPrice(user_id)
-                full_order[i] = ({ order: order[i], rows: rows, total_price: total_price })
-            } else {
-                full_order[i] = ({ order: order[i], rows: rows })
-            }
-        }
+        const order = await orders.userOrders(user_id as OheaderType['user_id'])
 
-        res.json(full_order)
+        res.json(order)
     } catch (err) {
-        res.status(400).json('CANNOT FIND USER ORDERS')
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
@@ -111,11 +108,12 @@ const updateOneHeader = async (req: Request, res: Response) => {
     const { customer_id, user_id, active } = req.body
 
     try {
-        const result = await orders.updateOneHeader(id, customer_id, user_id, active)
+        const result = await orders.updateOneHeader(id as OheaderType['id'], customer_id as OheaderType['customer_id'], user_id as OheaderType['user_id'], active as OheaderType['active'])
 
         res.json(result)
     } catch (err) {
-        res.status(400).json('CANNOT UPDATE HEADER')
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
@@ -125,11 +123,12 @@ const updateOneRow = async (req: Request, res: Response) => {
 
     try {
         quantity = parseInt(quantity)
-        const result = await orders.updateOneRow(id, quantity)
+        const result = await orders.updateOneRow(id as OrowType['id'], quantity as OrowType['quantity'])
 
         res.json(result)
     } catch (err) {
-        res.status(400).json('CANNOT UPDATE ROW')
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
@@ -137,11 +136,12 @@ const deleteOneHeader = async (req: Request, res: Response) => {
     const { id } = req.params
 
     try {
-        const result = await orders.deleteOneHeader(id)
+        const result = await orders.deleteOneHeader(id as OheaderType['id'])
 
         res.json(result)
     } catch (err) {
-        res.status(400).json('CANNOT DELETE HEADER')
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
@@ -149,23 +149,38 @@ const deleteOneRow = async (req: Request, res: Response) => {
     const { id } = req.params
 
     try {
-        const result = await orders.deleteOneRow(id)
+        const result = await orders.deleteOneRow(id as OrowType['id'])
 
         res.json(result)
     } catch (err) {
-        res.status(400).json('CANNOT DELETE ROW')
+        const error = `${err}`
+        res.status(400).json(error)
+    }
+}
+
+const orderDetails = async (req: Request, res: Response) => {
+    const { id } = req.params
+
+    try {
+        const result = await orders.details(id)
+
+        res.json(result)
+    } catch (err) {
+        const error = `${err}`
+        res.status(400).json(error)
     }
 }
 
 export const orderRoutes = (app: express.Application) => {
     app.post('/orders/headers/create', authOperation, createHeader)
     app.post('/orders/headers/:order_id/add', authOperation, addRow)
-    app.get('/orders/headers/:id', readHeader)
-    app.get('/orders/rows/:id', readRow)
-    app.get('/orders/headers', readAllHeaders)
-    app.get('/orders/rows', readAllRows)
+    app.get('/orders/headers/:id', authOperation, readHeader)
+    app.get('/orders/rows/:id', authOperation, readRow)
+    app.get('/orders/headers', authOperation, readAllHeaders)
+    app.get('/orders/rows', authOperation, readAllRows)
     app.get('/orders/user/:user_id', userOrders)
-    app.put('/orders/headers/update:id', authOperation, updateOneHeader)
+    app.get('/orders/details/:id', orderDetails)
+    app.put('/orders/headers/update/:id', authOperation, updateOneHeader)
     app.put('/orders/rows/update/:id', authOperation, updateOneRow)
     app.delete('/orders/headers/delete/:id', authOperation, deleteOneHeader)
     app.delete('/orders/rows/delete/:id', authOperation, deleteOneRow)
