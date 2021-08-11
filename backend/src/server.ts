@@ -6,14 +6,14 @@ import { userRoutes } from './handlers/usersHandler'
 import { orderRoutes } from './handlers/ordersHandler'
 
 const whitelist = ['http://localhost:3000/'] // add your safe domain
-var corsOptions: CorsOptions = {
-    origin: function (origin, callback) {
-        if (whitelist.indexOf(origin as string) !== -1 || !origin) {
-            callback(null, true)
-        } else {
-            callback(new Error('Not allowed by CORS'))
-        }
-    }
+const corsOptions: CorsOptions = {
+	origin: function (origin, callback) {
+		if (whitelist.indexOf(origin as string) !== -1 || !origin) {
+			callback(null, true)
+		} else {
+			callback(new Error('Not allowed by CORS'))
+		}
+	}
 }
 
 const app = express()
@@ -24,7 +24,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.get('/', cors(corsOptions), (_req: Request, res: Response) => {
-    res.send('Welcome!')
+	res.send('Welcome!')
 })
 
 // import routes from handlers
@@ -34,5 +34,5 @@ userRoutes(app)
 orderRoutes(app)
 
 app.listen(port, () => {
-    console.log(`Server listening on port: ${port}`)
+	console.log(`Server listening on port: ${port}`)
 })
