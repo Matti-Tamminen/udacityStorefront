@@ -79,7 +79,10 @@ export default class Product {
 
     async top5products(): Promise<object[]> {
         const connection = await client.connect()
-        const sql = `SELECT store.products.id, store.products.name, store.products.price, COUNT(store.order_rows.product_id) FROM store.order_rows INNER JOIN store.products ON store.order_rows.product_id = store.products.id GROUP BY store.products.id, store.products.name, store.products.price ORDER BY COUNT(product_id) DESC LIMIT(5);`
+        const sql = `SELECT store.products.id, store.products.name, store.products.price, COUNT(store.order_rows.product_id) FROM store.order_rows 
+        INNER JOIN store.products ON store.order_rows.product_id = store.products.id 
+        GROUP BY store.products.id, store.products.name, store.products.price 
+        ORDER BY COUNT(product_id) DESC LIMIT(5);`
         const res = await client.query(sql)
         connection.release()
 

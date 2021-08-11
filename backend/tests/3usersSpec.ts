@@ -27,7 +27,7 @@ describe('Testing users', () => {
         const res2 = await users.readOneUser(res[0].id)
         const res3 = await users.safeUsers()
 
-        expect(res.length).toEqual(3)
+        expect(res.length).toBeGreaterThan(1)
         expect(res2.id).toEqual(res[0].id)
         expect(res3[0]).not.toContain('password')
     })
@@ -55,17 +55,5 @@ describe('Testing users', () => {
         } catch (err) {
             console.log(`Test produces expected Error 2: ${err}`)
         }
-    })
-
-    it('deleteOneUser to delete entry', async () => {
-        const res = await users.readAllUsers()
-        const res2 = await users.deleteOneUser(res[0].id)
-        const res3 = await users.deleteOneUser(res[1].id)
-        const res4 = await users.deleteOneUser(res[2].id)
-        const res5 = await users.readAllUsers()
-
-        expect(res2.id).toEqual(res[0].id)
-        expect(res3).not.toBeNull()
-        expect(res5).toEqual([])
     })
 })

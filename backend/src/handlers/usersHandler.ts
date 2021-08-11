@@ -80,9 +80,9 @@ const deleteUser = async (req: Request, res: Response) => {
 
 export const userRoutes = (app: express.Application) => {
     app.post('/login', login)
-    app.post('/users/create', authOperation, createOne) // remove middleware to create initial users
+    app.post('/users/create', createOne) // add middleware to secure
     app.get('/users/:id', authOperation, readOne)
     app.get('/users', authOperation, readAll)
-    app.get('/users/index', userIndex)
+    app.get('/index', userIndex)
     app.delete('/users/delete/:id', authOperation, deleteUser)
 }

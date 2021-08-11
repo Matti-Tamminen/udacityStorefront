@@ -32,10 +32,11 @@ RESTful api for course to provide secured endpoints to show product information.
 }
 
 ## Scripts
+* "lint" -> starts eslint fix
 * "watch" -> starts tsc-watch
 * "build" -> builds typescript
 * "start" -> starts build version
-
+* "test" -> runs test db migrations and jasmine
 
 ## Schema
 * Product (products):
@@ -70,12 +71,29 @@ RESTful api for course to provide secured endpoints to show product information.
     * username
     * password
 
-## Views
-* Details - full order information with products 
-* Users - user names listed without secrets
-* TopSellers - top5 most sold products
-* Category - products listed by category
+## Endpoints (open)
+* /users/create -> create user
+* /index -> safe user information
+* /login -> provides token when passed
 
-## Endpoints
+* /products -> list all products
+* /products/:id -> show product
+* /products/category/:category -> list products of given category
+* /products/top5 -> list 5 most popular products
+
+## Endpoints (secured)
+* /products/create -> create product
+* /customers/create -> create customer
+* /orders/headers/create -> create header (customer and user required)
+* /orders/headers/:order_id/add -> add row to header (header and product required)
+
+* /orders/details/:id -> detailed information about order
+* /orders/user/:user_id -> list orders from given user
 
 ## Testing urls
+* base http://localhost:3000/
+* products http://localhost:3000/products
+* top5 http://localhost:3000/products/top5
+* category http://localhost:3000/products/category/*
+* details http://localhost:3000/orders/details/*
+* myorders http://localhost:3000/orders/user/*

@@ -67,7 +67,7 @@ export default class User {
         return res.rows
     }
 
-    async safeUsers(): Promise<UserType[]> {
+    async safeUsers(): Promise<object[]> {
         const connection = await client.connect()
         const sql = `SELECT first_name, last_name FROM store.users;`
         const res = await client.query(sql)

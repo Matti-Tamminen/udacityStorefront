@@ -14,13 +14,13 @@ describe('Testing products', () => {
     })
 
     it('createOneProduct creates entry', async () => {
-        const res = await products.createOneProduct('test1', 6, 'supply')
+        const res = await products.createOneProduct('test1', 6.00, 'supply')
         const res2 = await products.createOneProduct('test2', 5.55, 'supply')
         const res3 = await products.createOneProduct('test3', 8.55, null)
 
         expect(res.name).toEqual('test1')
         expect(res2.price.toString()).toEqual('5.55')
-        expect(res3.category).toEqual(null)
+        expect(res3.category).toBeNull()
     })
 
     it('readProducts to find right products', async () => {
@@ -52,16 +52,5 @@ describe('Testing products', () => {
 
         expect(res2.length).toEqual(1)
         expect(res3.length).toEqual(1)
-    })
-
-    it('deleteOneProduct deletes entry', async () => {
-        const res = await products.readAllProducts()
-        const res2 = await products.deleteOneProduct(res[0].id)
-        const res3 = await products.deleteOneProduct(res[1].id)
-        const res4 = await products.deleteOneProduct(res[2].id)
-        const res5 = await products.readAllProducts()
-
-        expect(res2.id).toEqual(res[0].id)
-        expect(res5).toEqual([])
     })
 })
