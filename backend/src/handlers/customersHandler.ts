@@ -48,7 +48,7 @@ const readAll = async (req: Request, res: Response) => {
 }
 
 const deleteOne = async (req: Request, res: Response) => {
-	const id = req.body.id
+	const { id } = req.params
 
 	try {
 		const result = await customers.deleteOneCustomer(id as CustomerType['id'])
@@ -64,5 +64,5 @@ export const customerRoutes = (app: express.Application): void => {
 	app.post('/customers/create', authOperation, createOne)
 	app.get('/customers/:id', authOperation, readOne)
 	app.get('/customers', authOperation, readAll)
-	app.delete('/customers/delete', authOperation, deleteOne)
+	app.delete('/customers/delete/:id', authOperation, deleteOne)
 }

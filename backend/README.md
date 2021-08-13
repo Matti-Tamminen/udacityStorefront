@@ -20,7 +20,7 @@ RESTful api for course to provide secured endpoints to show product information.
     * "host": "127.0.0.1",
     * "database": 'your database',
     * "user": 'your username',
-    * "password": <your password>
+    * "password": 'your password'
     * },
     * "test": {
     * "driver": "pg",
@@ -31,72 +31,79 @@ RESTful api for course to provide secured endpoints to show product information.
     * }
     * }
 
+## Ports
+* default port for backend db is 5432 and backend server is 3000
+
 ## Schema
 * project uses schema 'store' not mentioned in migrations, create schema to your dev-db and test-db
+* all the PKs are SERIAL NOT NULL
+* FKs are constrained, price and quantity are constrained (> 0)
 
 ## Tables
 * Product (store.products):
-    * id (PK)
-    * name
-    * price
-    * category
+    * id INTEGER (PK)
+    * name VARCHAR(50) NOT NULL
+    * price NUMERIC(10,2) 
+    * category VARCHAR(50)
 
 * Customer (store.customers):
-    * id (PK)
-    * name
-    * street_address
-    * postal_code
-    * city
+    * id INTEGER (PK)
+    * name VARCHAR(100)
+    * street_address VARCHAR
+    * postal_code INTEGER
+    * city VARCHAR(50)
 
 * Order_header (store.order_headers):
-    * id (PK)
-    * customer_id (FK -> customers)
-    * user_id (FK -> users)
-    * active
+    * id INTEGER (PK)
+    * customer_id INTEGER NOT NULL (FK -> customers)
+    * user_id INTEGER NOT NULL (FK -> users)
+    * active BOOLEAN NOT NULL DEFAULT(true)
 
 * Order_row (store.order_rows):
-    * id (PK)
-    * product_id (FK -> products)
-    * order_id (FK -> order_headers)
-    * quantity
+    * id INTEGER (PK)
+    * product_id INTEGER NOT NULL(FK -> products)
+    * order_id INTEGER NOT NULL(FK -> order_headers)
+    * quantity INTEGER NOT NULL
 
 * User (store.users):
-    * id (PK)
-    * first_name
-    * last_name
-    * username
-    * password
+    * id INTEGER (PK)
+    * first_name VARCHAR
+    * last_name VARCHAR NOT NULL
+    * username VARCHAR NOT NULL
+    * password VARCHAR NOT NULL
 
 ## Endpoints (open)
-* /users/create -> create user
-* /index -> safe user information
-* /login -> provides token when passed
+* POST /users/create -> create user
+* GET /index -> safe user information
+* POST /login -> provides token when passed
 
-* /products -> list all products
-* /products/:id -> show product
-* /products/category/:category -> list products of given category
-* /products/top5 -> list 5 most popular products
+* GET /products -> list all products
+* GET /products/:id -> show product
+* GET /products/category/:category -> list products of given category
+* GET /products/top5 -> list 5 most popular products
 
 ## Endpoints (secured)
-* /products/create -> create product
-* /customers/create -> create customer
-* /orders/headers/create -> create header (customer and user required)
-* /orders/headers/:order_id/add -> add row to header (header and product required)
+* POST /products/create -> create product
+* POST /customers/create -> create customer
+* POST /orders/headers/create -> create header (customer and user required)
+* POST /orders/headers/:order_id/add -> add row to header (header and product required)
 
-* /orders/details/:id -> detailed information about order
-* /orders/user/:user_id -> list orders from given user
+* GET /orders/details/:id -> detailed information about order
+* GET /orders/user/:user_id -> list orders from given user
 
 ## Testing urls
-* base http://localhost:3000/
-* products http://localhost:3000/products
-* top5 http://localhost:3000/products/top5
-* category http://localhost:3000/products/category/*
-* details http://localhost:3000/orders/details/*
-* myorders http://localhost:3000/orders/user/*
+* GET base http://localhost:3000/
+* GET users http://localhost:3000/index
+* GET products http://localhost:3000/products
+* GET category http://localhost:3000/products/category/*
+* GET top5 http://localhost:3000/products/top5
+* GET details http://localhost:3000/orders/details/*
+* GET userorders http://localhost:3000/orders/user/*
 
 ## Scripts
 * "lint" -> starts eslint fix
 * "watch" -> starts tsc-watch
-* "build" -> builds typescript
+* "migrate" -> migrates db
+* "build" -> builds typescript and migrates db
 * "start" -> starts build version
 * "test" -> runs test db migrations and jasmine
